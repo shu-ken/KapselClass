@@ -41,6 +41,7 @@ class BaseSheet {
   /**
    * 数値インデックス → A1表記の列記号に変換
    * 例: 0 → A, 1 → B, ..., 26 → AA
+   * @param {number} index
    */
   static indexToAlphabet(index) {
     if (typeof index !== "number" || index < 0) throw new Error(`不正な列インデックス: ${index}`);
