@@ -22,6 +22,9 @@ class BaseSheet {
     return this.ssData[offset];
   }
 
+  /**
+   * colsのマッピングに基づき、列のインデックスとアルファベットを取得
+   */
   createColMap() {
     const headers = this.getHeaderRow();
     const colMap = {};
@@ -35,6 +38,10 @@ class BaseSheet {
     return colMap;
   }
 
+  /**
+   * 数値インデックス → A1表記の列記号に変換
+   * 例: 0 → A, 1 → B, ..., 26 → AA
+   */
   indexToAlphabet(index) {
     let alphabetCol = "";
     while (index >= 0) {
