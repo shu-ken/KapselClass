@@ -6,8 +6,8 @@ class baseSheet {
     this.colMap = this.createColMap();
   }
 
-  getHeaderRow() {
-    const [headers] = this.ssData;
+  getHeaderRow(offset = 0) {
+    const headers = this.ssData[offset];
     return headers;
   }
 

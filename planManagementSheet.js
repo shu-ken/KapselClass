@@ -12,8 +12,7 @@ class planManagementSheet extends baseSheet {
   }
 
   getHeaderRow() {
-    const [, , , headers, ...data] = this.ssData;
-    return headers;
+    return super.getHeaderRow(3);
   }
 
   static switchDevEnv() {

@@ -10,11 +10,6 @@ class formDataSheet extends baseSheet {
     super(sheetId, sheetName, cols);
   }
 
-  getHeaderRow() {
-    const [headers, ...data] = this.ssData;
-    return headers;
-  }
-
   static switchDevEnv() {
     let sheetId;
     switch (ScriptApp.getScriptId()) {
