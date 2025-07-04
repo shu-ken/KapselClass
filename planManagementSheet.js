@@ -42,7 +42,8 @@ class PlanManagementSheet extends BaseSheet {
       const isCancelDateRange = canceledDate >= startDate && canceledDate <= endDate;
       return hasShopCode && isCancelDateRange;
     });
-    console.log(this.allShopList.length);
+
+    Logger.log("解約日が直近2ヶ月前の店舗数: %s", this.allShopList.length);
   }
 
   /**
@@ -66,7 +67,8 @@ class PlanManagementSheet extends BaseSheet {
     });
     this.uniqueList = Array.from(uniqueSet);
     this.duplicateList = Array.from(duplicateSet);
-    console.log("ユニーク店番：", this.uniqueList);
+
+    Logger.log("ユニーク店番: %s", JSON.stringify(this.uniqueList));
   }
 
   /**
@@ -74,8 +76,7 @@ class PlanManagementSheet extends BaseSheet {
    */
   noticeDuplicate() {
     if (this.duplicateList && this.duplicateList.length !== 0) {
-      console.log("エラー：重複が見つかりました");
-      console.log("重複店番：", this.duplicateList);
+      Logger.log("⚠️ 重複が見つかりました: %s", JSON.stringify(this.duplicateList));
     }
   }
 
