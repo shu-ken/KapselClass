@@ -24,14 +24,15 @@ class BaseSheet {
   createColMap() {
     const headers = this.getHeaderRow();
     const colMap = {};
-    for (const [key, val] of Object.entries(this.cols)) {
-      const idx = headers.indexOf(val);
 
-      if (idx === -1) throw new Error(`カラム名「${val}」がヘッダーに存在しません（キー: ${key}）`);
+    for (const [key, label] of Object.entries(this.cols)) {
+      const idx = headers.indexOf(label);
+      if (idx === -1) throw new Error(`カラム名「${label}」がヘッダーに存在しません（キー: ${key}）`);
 
       colMap[key] = {
-        alphabet: BaseSheet.indexToAlphabet(idx),
         index: idx,
+        alphabet: BaseSheet.indexToAlphabet(idx),
+        label: label,
       };
     }
 
