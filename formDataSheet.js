@@ -24,17 +24,38 @@ class FormDataSheet extends BaseSheet {
    * 指定された店舗コード（shopCode）の行に対応するセル範囲を空にする
    * @param {string[]} uniqueList
    */
-  clearShopList(uniqueList) {
+  clearShopList(shopCodes) {
     const paddedFormData = [[], ...this.ssData];
 
-    uniqueList.forEach((shopCode) => {
-      paddedFormData.forEach((row, i) => {
-        if (row[this.colMap.shopCode.index] !== shopCode) return;
-        const startCell = this.colMap.delStartCol.alphabet + i;
-        const endCell = this.colMap.delEndCol.alphabet + i;
-        this.sheet.getRange(`${startCell}:${endCell}`).clearContent();
-      });
+    shopCodes.forEach((shopCode) => {
+      const rowIndexes = this.findRowsByShopCode(paddedFormData, shopCode);
+      rowIndexes.forEach((rowIdx) => this.clearRowRange(rowIdx));
     });
-    SpreadsheetApp.flush(); // まとめて反映
+
+    SpreadsheetApp.flush();
+  }
+
+  /**
+   * 指定された店舗コードに一致する行番号を返す
+   * @param {Array[]} data シートデータ（padded）
+   * @param {string} shopCode 店舗コード
+   * @returns {number[]} 一致する行インデックス（1始まり）
+   */
+  findRowsByShopCode(data, shopCode) {
+    const result = [];
+    data.forEach((row, i) => {
+      if (row[this.colMap.shopCode.index] === shopCode) result.push(i);
+    });
+    return result;
+  }
+
+  /**
+   * 指定行の delStartCol 〜 delEndCol をクリアする
+   * @param {number} rowIdx クリア対象の行インデックス
+   */
+  clearRowRange(rowIdx) {
+    const startCol = this.colMap.delStartCol.alphabet;
+    const endCol = this.colMap.delEndCol.alphabet;
+    this.sheet.getRange(`${startCol}${rowIdx}:${endCol}${rowIdx}`).clearContent();
   }
 }
