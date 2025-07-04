@@ -53,4 +53,14 @@ class BaseSheet {
     }
     return alphabetCol;
   }
+
+  /**
+   * スクリプトIDに応じてシートIDを返す共通メソッド
+   * @param {Object} mapping - Script ID と Sheet ID のマッピング
+   */
+  static getSheetIdByEnv(mapping) {
+    const scriptId = ScriptApp.getScriptId();
+    if (!mapping[scriptId]) throw new Error(`未定義のScript ID: ${scriptId}`);
+    return mapping[scriptId];
+  }
 }

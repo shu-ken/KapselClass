@@ -1,6 +1,16 @@
 class PlanManagementSheet extends BaseSheet {
   constructor() {
-    const sheetId = PlanManagementSheet.switchDevEnv();
+    const SCRIPT_ID_DEV = "1yY0gkabc4Huc76mXMi1jxlFJsEnC8pcHK0LbUQV7vlGuEyo5eL2dxJ44";
+    const SCRIPT_ID_PROD = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; // ← 本番スクリプトID
+
+    const SHEET_ID_DEV = "1Aun4JtdUgG6goG9gM1c9gcgPq3IOAzyShJDUqGWb3l0";
+    const SHEET_ID_PROD = "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"; // ← 本番シートID
+
+    const sheetId = BaseSheet.getSheetIdByEnv({
+      [SCRIPT_ID_DEV]: SHEET_ID_DEV,
+      [SCRIPT_ID_PROD]: SHEET_ID_PROD,
+    });
+
     const sheetName = "メディア更新代行年間プラン";
     const cols = {
       status: "ステータス",
@@ -16,26 +26,6 @@ class PlanManagementSheet extends BaseSheet {
    */
   getHeaderRow() {
     return super.getHeaderRow(3);
-  }
-
-  /**
-   * スクリプトIDに応じて開発・本番のスプレッドシートIDを返す
-   */
-  static switchDevEnv() {
-    let sheetId;
-    switch (ScriptApp.getScriptId()) {
-      // 開発環境
-      case "1yY0gkabc4Huc76mXMi1jxlFJsEnC8pcHK0LbUQV7vlGuEyo5eL2dxJ44":
-        sheetId = "1Aun4JtdUgG6goG9gM1c9gcgPq3IOAzyShJDUqGWb3l0";
-        break;
-      // 本番
-      case "xxx":
-        sheetId = "yyy";
-        break;
-      default:
-        throw "本番と開発以外に使用されているScriptIDです";
-    }
-    return sheetId;
   }
 
   /**
