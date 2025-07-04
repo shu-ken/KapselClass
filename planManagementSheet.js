@@ -60,21 +60,22 @@ class PlanManagementSheet extends BaseSheet {
    */
   duplicateChecker() {
     const valueCounts = {};
-    const uniqueList = new Set();
-    const duplicateList = new Set();
+    const uniqueSet = new Set();
+    const duplicateSet = new Set();
+
     (this.allShopList || []).forEach((row) => {
       const shopCode = row[this.colMap.shopCode.index];
       valueCounts[shopCode] = (valueCounts[shopCode] || 0) + 1;
 
       if (valueCounts[shopCode] === 1) {
-        uniqueList.add(shopCode);
+        uniqueSet.add(shopCode);
       } else {
-        uniqueList.delete(shopCode);
-        duplicateList.add(shopCode);
+        uniqueSet.delete(shopCode);
+        duplicateSet.add(shopCode);
       }
     });
-    this.duplicateList = Array.from(duplicateList);
-    this.uniqueList = Array.from(uniqueList);
+    this.uniqueList = Array.from(uniqueSet);
+    this.duplicateList = Array.from(duplicateSet);
     console.log("ユニーク店番：", this.uniqueList);
   }
 
