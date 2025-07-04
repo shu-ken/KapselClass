@@ -1,13 +1,9 @@
 class BaseSheet {
   constructor(sheetId, sheetName, cols) {
-    if (!sheetId || !sheetName || !cols) {
-      throw new Error("必要な引数（sheetId, sheetName, cols）が不足しています");
-    }
+    if (!sheetId || !sheetName || !cols) throw new Error("必要な引数（sheetId, sheetName, cols）が不足しています");
 
     this.sheet = SpreadsheetApp.openById(sheetId).getSheetByName(sheetName);
-    if (!this.sheet) {
-      throw new Error(`指定されたシート「${sheetName}」が見つかりません`);
-    }
+    if (!this.sheet) throw new Error(`指定されたシート「${sheetName}」が見つかりません`);
 
     this.ssData = this.sheet.getDataRange().getValues();
     this.cols = cols;
@@ -30,11 +26,15 @@ class BaseSheet {
     const colMap = {};
     for (const [key, val] of Object.entries(this.cols)) {
       const idx = headers.indexOf(val);
+
+      if (idx === -1) throw new Error(`カラム名「${val}」がヘッダーに存在しません（キー: ${key}）`);
+
       colMap[key] = {
-        alphabet: this.indexToAlphabet(idx),
+        alphabet: BaseSheet.indexToAlphabet(idx),
         index: idx,
       };
     }
+
     return colMap;
   }
 
