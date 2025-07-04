@@ -1,4 +1,4 @@
-class baseSheet {
+class BaseSheet {
   constructor(sheetId, sheetName, cols) {
     this.sheet = SpreadsheetApp.openById(sheetId).getSheetByName(sheetName);
     this.ssData = this.sheet.getDataRange().getValues();

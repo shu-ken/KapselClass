@@ -1,4 +1,4 @@
-class planManagementSheet extends baseSheet {
+class planManagementSheet extends BaseSheet {
   constructor() {
     const sheetId = planManagementSheet.switchDevEnv();
     const sheetName = "メディア更新代行年間プラン";
