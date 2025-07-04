@@ -42,7 +42,7 @@ class BaseSheet {
    * 数値インデックス → A1表記の列記号に変換
    * 例: 0 → A, 1 → B, ..., 26 → AA
    */
-  indexToAlphabet(index) {
+  static indexToAlphabet(index) {
     let alphabetCol = "";
     while (index >= 0) {
       let remainder = index % 26;
