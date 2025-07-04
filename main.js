@@ -1,13 +1,16 @@
 function main() {
-  const spreadSheet = new PlanManagementSheet();
+  try {
+    const planSheet = new PlanManagementSheet();
 
-  spreadSheet.shopListMaker();
+    planSheet.shopListMaker();
+    planSheet.duplicateChecker();
+    planSheet.noticeDuplicate();
 
-  spreadSheet.duplicateChecker();
+    const formSheet = new FormDataSheet();
 
-  spreadSheet.noticeDuplicate();
-
-  const formSheet = new FormDataSheet();
-
-  formSheet.clearShopList(spreadSheet.getUniqueList());
+    formSheet.clearShopList(planSheet.getUniqueList());
+  } catch (e) {
+    Logger.log("エラーが発生しました: %s", e.message);
+    throw e;
+  }
 }
