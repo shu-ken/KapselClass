@@ -27,6 +27,10 @@ class FormDataSheet extends BaseSheet {
     return sheetId;
   }
 
+  /**
+   * 指定された店舗コード（shopCode）の行に対応するセル範囲を空にする
+   * @param {string[]} uniqueList
+   */
   clearShopList(uniqueList) {
     const paddedFormData = [[], ...this.ssData];
 
