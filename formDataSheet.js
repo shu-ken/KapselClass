@@ -33,12 +33,11 @@ class formDataSheet extends baseSheet {
     uniqueList.forEach((shopCode) => {
       paddedFormData.forEach((row, i) => {
         if (row[this.colMap.shopCode.index] !== shopCode) return;
-
         const startCell = this.colMap.delStartCol.alphabet + i;
         const endCell = this.colMap.delEndCol.alphabet + i;
         this.sheet.getRange(`${startCell}:${endCell}`).clearContent();
-        SpreadsheetApp.flush();
       });
     });
+    SpreadsheetApp.flush(); // まとめて反映
   }
 }
