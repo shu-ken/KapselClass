@@ -1,5 +1,5 @@
 function main() {
-  const spreadSheet = new planManagementSheet();
+  const spreadSheet = new PlanManagementSheet();
 
   spreadSheet.shopListMaker();
 
@@ -7,7 +7,7 @@ function main() {
 
   spreadSheet.noticeDuplicate();
 
-  const formSheet = new formDataSheet();
+  const formSheet = new FormDataSheet();
 
   formSheet.clearShopList(spreadSheet.getUniqueList());
 }

@@ -1,6 +1,6 @@
 class FormDataSheet extends BaseSheet {
   constructor() {
-    const sheetId = formDataSheet.switchDevEnv();
+    const sheetId = FormDataSheet.switchDevEnv();
     const sheetName = "まとめ";
     const cols = {
       shopCode: "店舗番号",
