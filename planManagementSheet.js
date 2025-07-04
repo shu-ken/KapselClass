@@ -35,8 +35,8 @@ class PlanManagementSheet extends BaseSheet {
   shopListMaker() {
     const [, , , headers, ...rows] = this.ssData;
     const currentDate = new Date();
-    const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 2, 1); //月初
-    const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1); //月末
+    const startDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 2, 1); //2ヶ月前の月初
+    const endDate = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1); //2ヶ月前の月末
     this.allShopList = rows.filter((row) => {
       const hasShopCode = row[this.colMap.shopCode.index];
       const canceledDate = new Date(row[this.colMap.planChangeDate.index]);
