@@ -1,6 +1,14 @@
 class BaseSheet {
   constructor(sheetId, sheetName, cols) {
+    if (!sheetId || !sheetName || !cols) {
+      throw new Error("必要な引数（sheetId, sheetName, cols）が不足しています");
+    }
+
     this.sheet = SpreadsheetApp.openById(sheetId).getSheetByName(sheetName);
+    if (!this.sheet) {
+      throw new Error(`指定されたシート「${sheetName}」が見つかりません`);
+    }
+
     this.ssData = this.sheet.getDataRange().getValues();
     this.cols = cols;
     this.colMap = this.createColMap();
