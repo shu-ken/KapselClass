@@ -43,10 +43,12 @@ class BaseSheet {
    * 例: 0 → A, 1 → B, ..., 26 → AA
    */
   static indexToAlphabet(index) {
+    if (typeof index !== "number" || index < 0) throw new Error(`不正な列インデックス: ${index}`);
+
     let alphabetCol = "";
     while (index >= 0) {
-      let remainder = index % 26;
-      alphabetCol = String.fromCharCode(remainder + "A".charCodeAt(0)) + alphabetCol;
+      const remainder = index % 26;
+      alphabetCol = String.fromCharCode(65 + remainder) + alphabetCol;
       index = Math.floor(index / 26) - 1;
     }
     return alphabetCol;
