@@ -14,9 +14,12 @@ class BaseSheet {
     this.colMap = this.createColMap();
   }
 
+  /**
+   * 任意のオフセット行からヘッダーを取得
+   * @param {number} offset ヘッダー行のインデックス（0が最初の行）
+   */
   getHeaderRow(offset = 0) {
-    const headers = this.ssData[offset];
-    return headers;
+    return this.ssData[offset];
   }
 
   createColMap() {
