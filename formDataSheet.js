@@ -1,4 +1,4 @@
-class formDataSheet extends BaseSheet {
+class FormDataSheet extends BaseSheet {
   constructor() {
     const sheetId = formDataSheet.switchDevEnv();
     const sheetName = "まとめ";
