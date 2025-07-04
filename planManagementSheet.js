@@ -11,10 +11,16 @@ class PlanManagementSheet extends BaseSheet {
     super(sheetId, sheetName, cols);
   }
 
+  /**
+   * 4行目をヘッダー行として取得（offset = 3）
+   */
   getHeaderRow() {
     return super.getHeaderRow(3);
   }
 
+  /**
+   * スクリプトIDに応じて開発・本番のスプレッドシートIDを返す
+   */
   static switchDevEnv() {
     let sheetId;
     switch (ScriptApp.getScriptId()) {
@@ -32,6 +38,9 @@ class PlanManagementSheet extends BaseSheet {
     return sheetId;
   }
 
+  /**
+   * 解約日が直近2ヶ月前の店舗だけを抽出し this.allShopList に格納
+   */
   shopListMaker() {
     const [, , , headers, ...rows] = this.ssData;
     const currentDate = new Date();
@@ -46,6 +55,9 @@ class PlanManagementSheet extends BaseSheet {
     console.log(this.allShopList.length);
   }
 
+  /**
+   * 店舗コードの重複を検出し、ユニーク・重複リストを作成
+   */
   duplicateChecker() {
     const valueCounts = {};
     const uniqueList = new Set();
@@ -66,6 +78,9 @@ class PlanManagementSheet extends BaseSheet {
     console.log("ユニーク店番：", this.uniqueList);
   }
 
+  /**
+   * 重複が存在する場合に警告を表示
+   */
   noticeDuplicate() {
     if (this.duplicateList && this.duplicateList.length !== 0) {
       console.log("エラー：重複が見つかりました");
