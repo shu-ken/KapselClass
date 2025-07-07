@@ -1,3 +1,4 @@
+// 再プッシュ
 class BaseSheet {
   constructor(sheetId, sheetName, cols) {
     if (!sheetId || !sheetName || !cols) throw new Error("必要な引数（sheetId, sheetName, cols）が不足しています");
