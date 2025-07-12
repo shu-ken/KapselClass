@@ -6,7 +6,6 @@ class IdpwLogSheet extends BaseSheet {
       deletedShops: "削除済店舗",
       duplicateShops: "重複未削除",
     };
-    console.log(sheetId);
     super(sheetId, sheetName, cols);
   }
 
