@@ -41,20 +41,6 @@ class FormDataSheet extends BaseSheet {
   }
 
   /**
-   *
-   * @param {string[]} uniqueList
-   */
-  writeUniqueList(uniqueList) {
-    if (!uniqueList || uniqueList.length === 0) return;
-
-    const startRow = 2;
-    const colAlphabet = this.colMap.deletedShops.alphabet;
-    const range = this.sheet.getRange(`${colAlphabet}${startRow}:${colAlphabet}${startRow + uniqueList.length - 1}`);
-    const values = uniqueList.map((v) => [v]);
-    range.setValues(values);
-  }
-
-  /**
    * 指定された店舗コードに一致する行番号を返す
    * @param {Array[]} data シートデータ（padded）
    * @param {string} shopCode 店舗コード
