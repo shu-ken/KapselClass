@@ -17,7 +17,8 @@ class FormDataSheet extends BaseSheet {
       delStartCol: "削除最初",
       delEndCol: "削除終わり",
     };
-    super(sheetId, sheetName, cols);
+    const headerRow = 0; // 1行目がヘッダーの場合（0始まり）
+    super(sheetId, sheetName, cols, headerRow);
   }
 
   /**

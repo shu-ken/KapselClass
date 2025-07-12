@@ -1,5 +1,11 @@
 class BaseSheet {
-  constructor(sheetId, sheetName, cols) {
+  /**
+   * @param {string} sheetId - スプレッドシートID
+   * @param {string} sheetName - シート名
+   * @param {Object} cols - { キー: ヘッダーラベル }
+   * @param {number} [headerRow=0] - ヘッダー行番号（0始まり。省略時は1行目）
+   */
+  constructor(sheetId, sheetName, cols, headerRow = 0) {
     if (!sheetId || !sheetName || !cols) throw new Error("必要な引数（sheetId, sheetName, cols）が不足しています");
 
     this.sheet = SpreadsheetApp.openById(sheetId).getSheetByName(sheetName);
@@ -7,15 +13,14 @@ class BaseSheet {
 
     this.ssData = this.sheet.getDataRange().getValues();
     this.cols = cols;
+    this.headerRow = headerRow;
     this.colMap = this.createColMap();
   }
 
-  /**
-   * 任意のオフセット行からヘッダーを取得
-   * @param {number} offset ヘッダー行のインデックス（0が最初の行）
-   */
-  getHeaderRow(offset = 0) {
-    return this.ssData[offset];
+  /** ヘッダー行を取得 */
+  getHeaderRow(offset) {
+    const rowIndex = typeof offset === "number" ? offset : this.headerRow;
+    return this.ssData[rowIndex];
   }
 
   /**

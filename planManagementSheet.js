@@ -17,14 +17,8 @@ class PlanManagementSheet extends BaseSheet {
       shopCode: "店番",
       planChangeDate: "解約日",
     };
-    super(sheetId, sheetName, cols);
-  }
-
-  /**
-   * 4行目をヘッダー行として取得（offset = 3）
-   */
-  getHeaderRow() {
-    return super.getHeaderRow(3);
+    const headerRow = 3;
+    super(sheetId, sheetName, cols, headerRow);
   }
 
   /**
