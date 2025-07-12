@@ -1,4 +1,3 @@
-// 再プッシュ
 class BaseSheet {
   constructor(sheetId, sheetName, cols) {
     if (!sheetId || !sheetName || !cols) throw new Error("必要な引数（sheetId, sheetName, cols）が不足しています");
@@ -20,12 +19,13 @@ class BaseSheet {
   }
 
   /**
-   * colsのマッピングに基づき、列のインデックスとアルファベットを取得
+   * 指定されたヘッダー行から、列の位置情報をマッピングする
+   * @returns {Object} - 列名とそのインデックスやアルファベットをマッピングしたオブジェクト
    */
   createColMap() {
+    // サブクラスでヘッダー行の取得方法が異なる場合はオーバーライド
     const headers = this.getHeaderRow();
     const colMap = {};
-
     for (const [key, label] of Object.entries(this.cols)) {
       const idx = headers.indexOf(label);
       if (idx === -1) throw new Error(`カラム名「${label}」がヘッダーに存在しません（キー: ${key}）`);
@@ -36,22 +36,21 @@ class BaseSheet {
         label: label,
       };
     }
-
     return colMap;
   }
 
   /**
-   * 数値インデックス → A1表記の列記号に変換
-   * 例: 0 → A, 1 → B, ..., 26 → AA
-   * @param {number} index
+   * 列のインデックス番号からアルファベットを算出して返す
+   * @param {number} index - 列のインデックス（0から始まる）
+   * @return {string} - アルファベット
    */
   static indexToAlphabet(index) {
     if (typeof index !== "number" || index < 0) throw new Error(`不正な列インデックス: ${index}`);
 
     let alphabetCol = "";
     while (index >= 0) {
-      const remainder = index % 26;
-      alphabetCol = String.fromCharCode(65 + remainder) + alphabetCol;
+      let remainder = index % 26;
+      alphabetCol = String.fromCharCode(remainder + "A".charCodeAt(0)) + alphabetCol;
       index = Math.floor(index / 26) - 1;
     }
     return alphabetCol;

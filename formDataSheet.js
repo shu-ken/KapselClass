@@ -1,11 +1,10 @@
-// 再プッシュ
 class FormDataSheet extends BaseSheet {
   constructor() {
     const SCRIPT_ID_DEV = "1yY0gkabc4Huc76mXMi1jxlFJsEnC8pcHK0LbUQV7vlGuEyo5eL2dxJ44";
-    const SCRIPT_ID_PROD = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"; // ← 実際の本番Script IDを記入
+    const SCRIPT_ID_PROD = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
 
     const SHEET_ID_DEV = "1g39PgTEbF8mZdW5b5dz-g4PfizVbLmbNtQ_bPW-uZew";
-    const SHEET_ID_PROD = "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy"; // ← 実際の本番Sheet IDを記入
+    const SHEET_ID_PROD = "yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy";
 
     const sheetId = BaseSheet.getSheetIdByEnv({
       [SCRIPT_ID_DEV]: SHEET_ID_DEV,
@@ -22,18 +21,42 @@ class FormDataSheet extends BaseSheet {
   }
 
   /**
-   * 指定された店舗コード（shopCode）の行に対応するセル範囲を空にする
+   * uniqueListの店番を持つまとめシートの行に対し、全媒体のIDPWを削除する
    * @param {string[]} uniqueList
    */
-  clearShopList(shopCodes) {
-    const paddedFormData = [[], ...this.ssData];
+  clearShopIDPW(uniqueList) {
+    try {
+      const paddedFormData = [[], ...this.ssData];
+      uniqueList.forEach((shopCode) => {
+        const result = this.findRowsByShopCode(paddedFormData, shopCode);
 
-    shopCodes.forEach((shopCode) => {
-      const rowIndexes = this.findRowsByShopCode(paddedFormData, shopCode);
-      rowIndexes.forEach((rowIdx) => this.clearRowRange(rowIdx));
-    });
+        const idpwLogSheet = new IdpwLogSheet(this.sheet.getParent().getId());
+        idpwLogSheet.writeUniqueList(result.result2);
+        // const idpwLogSheet = new IdpwLogSheet(sheetId);
+        // this.writeUniqueList(result.result2);
 
-    SpreadsheetApp.flush();
+        result.result.forEach((rowIdx) => this.clearRowRange(rowIdx));
+      });
+      SpreadsheetApp.flush();
+    } catch (e) {
+      console.error("clearShopIDPWでエラーが発生しました:", e.message);
+    }
+  }
+
+  /**
+   *
+   * @param {string[]} uniqueList
+   */
+  writeUniqueList(uniqueList) {
+    if (!uniqueList || uniqueList.length === 0) return;
+
+    const startRow = 2;
+    const colAlphabet = this.colMap.deletedShops.alphabet;
+    const range = this.sheet.getRange(`${colAlphabet}${startRow}:${colAlphabet}${startRow + uniqueList.length - 1}`);
+    const values = uniqueList.map((v) => [v]);
+    console.log("range");
+    console.log(range);
+    range.setValues(values);
   }
 
   /**
@@ -44,10 +67,14 @@ class FormDataSheet extends BaseSheet {
    */
   findRowsByShopCode(data, shopCode) {
     const result = [];
+    const result2 = [];
     data.forEach((row, i) => {
-      if (row[this.colMap.shopCode.index] === shopCode) result.push(i);
+      if (row[this.colMap.shopCode.index] === shopCode) {
+        result.push(i);
+        result2.push(shopCode);
+      }
     });
-    return result;
+    return { result, result2 };
   }
 
   /**
