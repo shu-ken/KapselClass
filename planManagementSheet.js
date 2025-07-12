@@ -37,11 +37,11 @@ class PlanManagementSheet extends BaseSheet {
       const currentDate = new Date();
       const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 0); // 2ヶ月前の月末
       this.allShopList = rows.filter((row) => {
-        const hasShopCode = row[this.colMap.shopCode.index];
         const canceledDate = new Date(row[this.colMap.planChangeDate.index]);
+        const shopCodeStr = String(row[this.colMap.shopCode.index] || "");
 
         // 条件をまとめて評価
-        const isValidShop = hasShopCode && !hasShopCode.endsWith("-0") && !hasShopCode.endsWith("-");
+        const isValidShop = shopCodeStr && !shopCodeStr.endsWith("-0") && !shopCodeStr.endsWith("-");
         const isCancelDateRange = canceledDate <= endOfMonth; // 解約日が2ヶ月前の月末より前
 
         return isValidShop && isCancelDateRange;

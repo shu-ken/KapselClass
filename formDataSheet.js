@@ -24,17 +24,14 @@ class FormDataSheet extends BaseSheet {
    * uniqueListの店番を持つまとめシートの行に対し、全媒体のIDPWを削除する
    * @param {string[]} uniqueList
    */
-  clearShopIDPW(uniqueList) {
+  clearShopIDPW(uniqueList, logSheetId) {
     try {
       const paddedFormData = [[], ...this.ssData];
       uniqueList.forEach((shopCode) => {
         const result = this.findRowsByShopCode(paddedFormData, shopCode);
-
-        const idpwLogSheet = new IdpwLogSheet(this.sheet.getParent().getId());
-        idpwLogSheet.writeUniqueList(result.result2);
-        // const idpwLogSheet = new IdpwLogSheet(sheetId);
-        // this.writeUniqueList(result.result2);
-
+        // ログは「planManagementSheet側IDPW削除ログ」シートに書き込む
+        const idpwLogSheet = new IdpwLogSheet(logSheetId);
+        idpwLogSheet.writeUniqueList([shopCode]);
         result.result.forEach((rowIdx) => this.clearRowRange(rowIdx));
       });
       SpreadsheetApp.flush();
@@ -54,8 +51,6 @@ class FormDataSheet extends BaseSheet {
     const colAlphabet = this.colMap.deletedShops.alphabet;
     const range = this.sheet.getRange(`${colAlphabet}${startRow}:${colAlphabet}${startRow + uniqueList.length - 1}`);
     const values = uniqueList.map((v) => [v]);
-    console.log("range");
-    console.log(range);
     range.setValues(values);
   }
 

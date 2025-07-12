@@ -21,8 +21,6 @@ class IdpwLogSheet extends BaseSheet {
     const colAlphabet = this.colMap.deletedShops.alphabet;
     const range = this.sheet.getRange(`${colAlphabet}${startRow}:${colAlphabet}${startRow + uniqueList.length - 1}`);
     const values = uniqueList.map((v) => [v]);
-    console.log("range");
-    console.log(range);
     range.setValues(values);
   }
 
@@ -37,8 +35,6 @@ class IdpwLogSheet extends BaseSheet {
     const colAlphabet = this.colMap.duplicateShops.alphabet;
     const range = this.sheet.getRange(`${colAlphabet}${startRow}:${colAlphabet}${startRow + duplicateList.length - 1}`);
     const values = duplicateList.map((v) => [v]);
-    console.log("range");
-    console.log(range);
     range.setValues(values);
   }
 }
